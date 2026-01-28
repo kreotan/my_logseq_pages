@@ -1,7 +1,7 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
-// 所有頁面共用的組件
+// components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
@@ -9,37 +9,12 @@ export const sharedPageComponents: SharedLayout = {
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/jackyzha0/quartz",
-      "Digital Garden": "https://kreotan.github.io/my_logseq_pages/",
+      "Discord Community": "https://discord.gg/cRFFHYye7t",
     },
   }),
 }
 
-// 共通的 Explorer 排序與處理邏輯
-const explorerConfig = {
-  title: "雪泥鴻爪",
-  folderDefaultState: "collapsed" as const,
-  useSavedState: true,
-  sortFn: (a, b) => {
-    // 1. 類別優先權：資料夾排在檔案前面
-    if ((!a.file && b.file) || (a.file && !b.file)) {
-      return a.file ? 1 : -1
-    }
-
-    // 2. 名稱排序：強制「新日期」在上
-    // 如果 a(26日) < b(27日)，回傳 1 讓 b 往前排
-    if (a.name < b.name) return 1
-    if (a.name > b.name) return -1
-    return 0
-  },
-  mapFn: (node) => {
-    // 防護機制：確保 displayName 存在才進行替換，避免渲染崩潰
-    if (node.displayName) {
-      node.displayName = node.displayName.replace(/_/g, " ")
-    }
-  },
-}
-
-// 顯示單一筆記頁面的佈局
+// components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
@@ -63,7 +38,7 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer(explorerConfig), // 使用上面定義的統一設定
+    Component.Explorer(),
   ],
   right: [
     Component.Graph(),
@@ -72,7 +47,7 @@ export const defaultContentPageLayout: PageLayout = {
   ],
 }
 
-// 顯示列表（如標籤頁、資料夾頁）的佈局
+// components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
   left: [
@@ -87,7 +62,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(explorerConfig), // 這裡也同步更新，確保一致
+    Component.Explorer(),
   ],
   right: [],
 }

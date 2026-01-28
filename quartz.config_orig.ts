@@ -3,56 +3,59 @@ import * as Plugin from "./quartz/plugins"
 
 /**
  * Quartz 4 Configuration
+ *
+ * See https://quartz.jzhao.xyz/configuration for more information.
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "林隙間 Woodland Gap",
+    pageTitle: "Quartz 4",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
       provider: "plausible",
     },
-    locale: "zh-TW",
+    locale: "en-US",
     baseUrl: "kreotan.github.io/my_logseq_pages",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
-theme: {
-  fontOrigin: "googleFonts",
-  cdnCaching: true,
-  typography: {
+    theme: {
+      fontOrigin: "googleFonts",
+      cdnCaching: true,
+      typography: {
         header: "Schibsted Grotesk",
         body: "Source Sans Pro",
         code: "IBM Plex Mono",
-  },
-  colors: {
-    lightMode: {
-      light: "#e2dfd4",       // 暖紙色
-      lightgray: "#d3cfc1", 
-      gray: "#b0aa93", 
-      darkgray: "#33302e",    // 墨炭色
-      dark: "#2b2b2b", 
-      secondary: "#556b2f",   // 苔蘚綠
-      tertiary: "#a89078",    // 枯木色
-      highlight: "rgba(85, 107, 47, 0.12)",
-      textHighlight: "#fff23688",
+      },
+      colors: {
+        lightMode: {
+          light: "#faf8f8",
+          lightgray: "#e5e5e5",
+          gray: "#b8b8b8",
+          darkgray: "#4e4e4e",
+          dark: "#2b2b2b",
+          secondary: "#284b63",
+          tertiary: "#84a59d",
+          highlight: "rgba(143, 159, 169, 0.15)",
+          textHighlight: "#fff23688",
+        },
+        darkMode: {
+          light: "#161618",
+          lightgray: "#393639",
+          gray: "#646464",
+          darkgray: "#d4d4d4",
+          dark: "#ebebec",
+          secondary: "#7b97aa",
+          tertiary: "#84a59d",
+          highlight: "rgba(143, 159, 169, 0.15)",
+          textHighlight: "#b3aa0288",
+        },
+      },
     },
-    darkMode: {
-      light: "#1a1b1c",       // 硯台深灰
-      lightgray: "#2d2e2f", 
-      gray: "#646464", 
-      darkgray: "#dcdcdc",    // 月白色文字
-      dark: "#ebebec", 
-      secondary: "#8f9779",   // 月光綠
-      tertiary: "#a3907d", 
-      highlight: "rgba(143, 151, 121, 0.15)",
-      textHighlight: "#b3aa0288",
-    },
   },
-},  },
   plugins: {
     transformers: [
-      Plugin.FrontMatter(), // 正確保留此插件，負責自動處理標題
+      Plugin.FrontMatter(),
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "git", "filesystem"],
       }),
@@ -85,6 +88,7 @@ theme: {
       Plugin.Static(),
       Plugin.Favicon(),
       Plugin.NotFoundPage(),
+      // Comment out CustomOgImages to speed up build time
       Plugin.CustomOgImages(),
     ],
   },
